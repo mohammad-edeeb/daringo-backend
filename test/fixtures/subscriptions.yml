@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  challenge: one
+  condition: MyString
+  winner: false
+
+two:
+  user: two
+  challenge: two
+  condition: MyString
+  winner: false
