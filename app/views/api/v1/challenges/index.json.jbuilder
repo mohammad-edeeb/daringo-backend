@@ -5,11 +5,11 @@ json.challenges @challenges do |challenge|
 
 	json.num_of_completed_predictions 5
 
-	json.participants User.all do |user|
-		json.extract! user, :first_name
-	end
-
-	# json.participants challenge.users do |user|
+	# json.participants User.all do |user|
 	# 	json.extract! user, :first_name
 	# end
+
+	json.participants challenge.users do |user|
+		json.extract! user, :first_name
+	end
 end
