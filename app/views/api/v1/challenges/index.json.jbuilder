@@ -3,7 +3,7 @@ json.challenges @challenges do |challenge|
 
 	json.owner_user_id challenge.owner.id
 
-	json.num_of_completed_predictions 5
+	json.num_of_completed_predictions rand(50)
 
 	# json.participants User.all do |user|
 	# 	json.extract! user, :first_name
