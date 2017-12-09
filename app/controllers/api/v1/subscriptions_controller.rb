@@ -29,8 +29,8 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 	private
 
 	def subscription_params
-		params.require(:data).require(:subscription).permit(:condition,
-			blocks: [:id, :text]
+		params.require(:data).require(:subscription)
+			.permit(:condition, blocks: [:id, :text]
 			)
 	end
 

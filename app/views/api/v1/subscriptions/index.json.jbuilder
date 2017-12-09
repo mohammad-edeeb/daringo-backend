@@ -3,7 +3,7 @@ json.challenge do
 end
 
 json.subscriptions @challenge.subscriptions do |s|
-	json.extract! s, :id, :can_edit
+	json.extract! s, :id, :can_edit, :condition
 	json.num_of_completed_blocks s.blocks.completed.size
 	json.user do
 		json.extract! s.user, :id, :first_name, :last_name, :image_url
