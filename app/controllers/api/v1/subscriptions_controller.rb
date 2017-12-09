@@ -13,7 +13,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 
 	def update
 		@subscription.update(condition: subscription_params[:condition], 
-			blocks_attributes: subscription_params[:blocks])
+			blocks_attributes: subscription_params[:blocks], can_edit: true)
 		render_empty_success
 	end
 
