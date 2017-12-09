@@ -4,7 +4,7 @@ end
 
 json.subscriptions @challenge.subscriptions do |s|
 	json.id s.id
-	json.num_of_completed_blocks 5
+	json.num_of_completed_blocks s.blocks.completed.size
 	json.user do
 		json.extract! s.user, :id, :first_name, :last_name, :image_url
 	end
