@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129213510) do
+ActiveRecord::Schema.define(version: 20171209012243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "blocks", force: :cascade do |t|
+    t.bigint "subscription_id"
+    t.string "text"
+    t.boolean "completed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "order"
+    t.index ["subscription_id"], name: "index_blocks_on_subscription_id"
+  end
 
   create_table "challenges", force: :cascade do |t|
     t.bigint "user_id"
@@ -23,16 +33,8 @@ ActiveRecord::Schema.define(version: 20171129213510) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "start_date"
     t.index ["user_id"], name: "index_challenges_on_user_id"
-  end
-
-  create_table "predictions", force: :cascade do |t|
-    t.bigint "subscription_id"
-    t.string "text"
-    t.boolean "completed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["subscription_id"], name: "index_predictions_on_subscription_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -59,8 +61,8 @@ ActiveRecord::Schema.define(version: 20171129213510) do
     t.string "token"
   end
 
+  add_foreign_key "blocks", "subscriptions"
   add_foreign_key "challenges", "users"
-  add_foreign_key "predictions", "subscriptions"
   add_foreign_key "subscriptions", "challenges"
   add_foreign_key "subscriptions", "users"
 end

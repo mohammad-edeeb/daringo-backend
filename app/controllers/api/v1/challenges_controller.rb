@@ -11,16 +11,28 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 		@challenges = current_user.challenges
 	end
 
+	def create
+		invited_ids = challenge_params[:invited_ids]
+		@challenge = Challenge.create(challenge_params.except(:invited_ids).merge(owner: current_user))
+		@challenge.subscribe(current_user)
+		invited_ids.each do |user|
+			u = User.find_by_social_account_id(user[:facebook_id])
+			if u.present?
+				@challenge.subscribe(u)
+			end
+		end
+	end
+
 	private
 
-	def social_login_params
-		params.require(:data).require(:user).permit(:account_type,
-			:social_account_id,
-			:social_account_token,
-			:image_url,
-			:email,
-			:first_name,
-			:last_name)
+	def challenge_params
+		params.require(:data).require(:challenge).permit(:title,
+			:description,
+			:num_of_blocks,
+			:start_date,
+			:end_date,
+			invited_ids: [:facebook_id]
+			)
 	end
 
 end

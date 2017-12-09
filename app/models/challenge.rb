@@ -4,5 +4,13 @@ class Challenge < ApplicationRecord
 
   has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions, source: :user
+
+
+  def subscribe(user)
+  	subscription = self.subscriptions.create(user: user)
+	(1..self.num_of_blocks).each do |i|
+		subscription.blocks.create(order: i)
+	end
+  end
   
 end
