@@ -21,6 +21,9 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 		block = @subscription.blocks.find(params[:block_id])
 		block.update(completed: true)
 		@winner = !@subscription.blocks.where(completed: false).exists?
+		if @winner
+			@challenge.update(completed: true)
+		end
 	end
 
 	private

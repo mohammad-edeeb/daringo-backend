@@ -1,5 +1,5 @@
 json.challenges @challenges do |challenge|
-	json.extract! challenge, :id, :title, :start_date, :end_date
+	json.extract! challenge, :id, :title, :start_date, :end_date, :completed
 
 	json.owner do
 		json.extract! challenge.owner, :id
