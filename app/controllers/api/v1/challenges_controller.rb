@@ -12,11 +12,11 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 	end
 
 	def create
-		invited_ids = challenge_params[:invited_ids]
-		@challenge = Challenge.create(challenge_params.except(:invited_ids).merge(owner: current_user))
+		participants = challenge_params[:participants]
+		@challenge = Challenge.create(challenge_params.except(:participants).merge(owner: current_user))
 		@challenge.subscribe(current_user)
-		invited_ids.each do |user|
-			u = User.find_by_social_account_id(user[:facebook_id])
+		participants.each do |user|
+			u = User.find_by_social_account_id(user[:social_account_id])
 			if u.present?
 				@challenge.subscribe(u)
 			end
@@ -31,7 +31,7 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 			:num_of_blocks,
 			:start_date,
 			:end_date,
-			invited_ids: [:facebook_id]
+			participants: [:social_account_id]
 			)
 	end
 
