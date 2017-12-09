@@ -3,7 +3,7 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 	before_action :authenticate_api_user!
 
 	def index
-		@challenges = current_user.challenges
+		@challenges = current_user.challenges.order(title: :asc)
 	end
 
 	def create
