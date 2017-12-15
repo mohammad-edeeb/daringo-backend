@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215065209) do
+ActiveRecord::Schema.define(version: 20171215165200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,9 @@ ActiveRecord::Schema.define(version: 20171215065209) do
     t.datetime "updated_at", null: false
     t.datetime "start_date"
     t.boolean "completed", default: false
+    t.bigint "winner_id"
     t.index ["user_id"], name: "index_challenges_on_user_id"
+    t.index ["winner_id"], name: "index_challenges_on_winner_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -66,6 +68,7 @@ ActiveRecord::Schema.define(version: 20171215065209) do
 
   add_foreign_key "blocks", "subscriptions"
   add_foreign_key "challenges", "users"
+  add_foreign_key "challenges", "users", column: "winner_id"
   add_foreign_key "subscriptions", "challenges"
   add_foreign_key "subscriptions", "users"
 end

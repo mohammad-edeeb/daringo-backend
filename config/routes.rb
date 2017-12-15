@@ -9,10 +9,16 @@ Rails.application.routes.draw do
 			delete 'users', to: "users#logout"
 
 			resources :challenges , only: [:index, :create] do
+
+				collection do
+					get 'ended'
+					delete 'unsubscribe'
+				end
+
 				resources :subscriptions, only: [:show, :index, :update] do
 
 					member do
-						post 'blocks/:block_id/complete', to: 'subscriptions#complete_block'
+						post 'blocks/:block_id/toggle', to: 'subscriptions#toggle_block'
 					end
 
 				end
