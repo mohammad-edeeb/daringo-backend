@@ -11,7 +11,8 @@ class Api::V1::UsersController < Api::V1::BaseController
 		# return user data if it was already registered
 		if @user
 			social_account_token = social_login_params[:social_account_token]
-			@user.update(social_account_token: social_account_token)
+			fcm_token = social_login_params[:fcm_token]
+			@user.update(social_account_token: social_account_token, fcm_token: fcm_token)
 			render 'social_login', status: :ok and return
 		end
 
