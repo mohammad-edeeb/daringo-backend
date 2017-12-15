@@ -35,7 +35,8 @@ class Api::V1::UsersController < Api::V1::BaseController
 			:image_url,
 			:email,
 			:first_name,
-			:last_name)
+			:last_name,
+			:fcm_token)
 	end
 
 end

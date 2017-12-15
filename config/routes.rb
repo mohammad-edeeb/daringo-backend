@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 		namespace :v1 do
 
 			post 'users/social_login'
+			put 'users/fcm_token'
 
 			resources :challenges , only: [:index, :create] do
 				resources :subscriptions, only: [:show, :index, :update] do
