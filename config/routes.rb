@@ -15,6 +15,10 @@ Rails.application.routes.draw do
 					delete 'unsubscribe'
 				end
 
+				member do
+					post 'complete'
+				end
+
 				resources :subscriptions, only: [:show, :index, :update] do
 
 					member do
