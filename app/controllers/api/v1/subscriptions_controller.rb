@@ -1,7 +1,7 @@
 class Api::V1::SubscriptionsController < Api::V1::BaseController
 	before_action :authenticate_api_user!
 	before_action :set_challenge!
-	before_action :set_subscription!, only: [:show, :update, :complete_block]
+	before_action :set_subscription!, only: [:show, :update, :toggle_block]
 
 	def index
 		@subscriptions = @challenge.subscriptions
