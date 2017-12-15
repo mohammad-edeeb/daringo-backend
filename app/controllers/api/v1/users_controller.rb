@@ -1,5 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
-
+	before_action :authenticate_api_user!, only: [:logout]
+	
 	def social_login
 
 		social_account_id = social_login_params[:social_account_id]
@@ -25,6 +26,11 @@ class Api::V1::UsersController < Api::V1::BaseController
 		if !@user.save
 			render_unprocessable(@user.errors.full_messages[0]) and return
 		end
+	end
+
+	def logout
+		current_user.update(fcm_token: nil)
+		render_empty_success
 	end
 
 	private
