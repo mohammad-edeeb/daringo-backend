@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
 				collection do
 					get 'ended'
-					delete 'unsubscribe'
+					post 'unsubscribe'
 				end
 
 				member do
