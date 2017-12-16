@@ -23,6 +23,7 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 				challenge.subscriptions.find_by_user_id(current_user.id).destroy
 			end
 		end
+		render_empty_success
 	end
 
 	def create
