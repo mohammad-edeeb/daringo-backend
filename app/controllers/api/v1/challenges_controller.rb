@@ -4,12 +4,16 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 	before_action :set_challenge!, only: [:complete]
 
 	def index
-		@challenges = current_user.challenges.order(title: :asc)
+		@challenges = current_user.challenges
+			.where('end_date >= ? and winner_id is null', Time.now)
+			.order(title: :asc)
 	end
 
 	# ended challenges or has winner
 	def ended
-		@challenges = current_user.challenges.where('end_date < ? or winner_id is not null', Time.now)
+		@challenges = current_user.challenges
+			.where('end_date < ? or winner_id is not null', Time.now)
+			.order(title: :asc)
 		render 'index', status: :ok
 	end
 
@@ -30,12 +34,20 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 		participants = challenge_params[:participants]
 		@challenge = Challenge.create(challenge_params.except(:participants).merge(owner: current_user))
 		@challenge.subscribe(current_user)
+		registration_ids = []
+		registration_ids << current_user.fcm_token
 		participants.each do |user|
 			u = User.find_by_social_account_id(user[:social_account_id])
 			if u.present?
+				registration_ids << u.fcm_token
 				@challenge.subscribe(u)
 			end
 		end
+		notification = Notification.new(
+			"New Challenge",
+			current_user.first_name + " added you to challenge \"" + @challenge.title + "\""
+			)
+		PushNotificationsManager.send(notification, registration_ids)
 	end
 
 	def complete
