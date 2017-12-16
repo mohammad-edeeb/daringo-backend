@@ -47,7 +47,8 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 		end
 		notification = Notification.new(
 			"New Challenge",
-			current_user.first_name + " added you to challenge \"" + @challenge.title + "\""
+			current_user.first_name + " " + current_user.last_name + 
+				" added you to challenge \"" + @challenge.title + "\""
 			)
 		PushNotificationsManager.send(notification, registration_ids)
 	end
