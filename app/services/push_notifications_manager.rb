@@ -11,5 +11,6 @@ class PushNotificationsManager
 				body: notification.description,
 				sound: :default
 				})
+		puts response
 	end
 end

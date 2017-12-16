@@ -39,7 +39,9 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 		participants.each do |user|
 			u = User.find_by_social_account_id(user[:social_account_id])
 			if u.present?
-				registration_ids << u.fcm_token
+				if u.fcm_token
+					registration_ids << u.fcm_token
+				end
 				@challenge.subscribe(u)
 			end
 		end
