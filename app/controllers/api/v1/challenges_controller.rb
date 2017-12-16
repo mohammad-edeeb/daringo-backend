@@ -35,7 +35,6 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 		@challenge = Challenge.create(challenge_params.except(:participants).merge(owner: current_user))
 		@challenge.subscribe(current_user)
 		registration_ids = []
-		registration_ids << current_user.fcm_token
 		participants.each do |user|
 			u = User.find_by_social_account_id(user[:social_account_id])
 			if u.present?
@@ -58,6 +57,22 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 			render_unprocessable('Challenge already won by another participant') and return
 		end
 		@challenge.update(completed: true, winner: current_user)
+
+		registration_ids = []
+
+		@challenge.subscriptions.each do |s|
+			user_fcm_token = s.user.fcm_token
+			if user_fcm_token
+				registration_ids << user_fcm_token
+			end
+		end
+
+		notification = Notification.new(
+			"Challenge Winner",
+			current_user.first_name + " " + current_user.last_name + 
+				" has won the challenge \"" + @challenge.title + "\""
+			)
+		PushNotificationsManager.send(notification, registration_ids)
 		render_empty_success
 	end
 
