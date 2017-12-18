@@ -62,7 +62,7 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 
 		@challenge.subscriptions.each do |s|
 			user_fcm_token = s.user.fcm_token
-			if user_fcm_token
+			if user_fcm_token && s.user != current_user
 				registration_ids << user_fcm_token
 			end
 		end
