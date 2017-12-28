@@ -72,6 +72,7 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 			current_user.first_name + " " + current_user.last_name + 
 				" has won the challenge \"" + @challenge.title + "\""
 			)
+		puts registration_ids.inspect
 		PushNotificationsManager.send(notification, registration_ids)
 		render_empty_success
 	end
