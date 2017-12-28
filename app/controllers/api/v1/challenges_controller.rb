@@ -21,6 +21,9 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 		challenges_params = unsubscribe_params[:challenges]
 		challenges_params.each do |param|
 			challenge = Challenge.find_by_id(param[:id])
+			if !challenge
+				render_unprocessable('Challenge already deleted by owner') and return
+			end
 			if challenge.owner == current_user
 				challenge.destroy
 			else
