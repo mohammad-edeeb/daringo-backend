@@ -85,7 +85,7 @@ class Api::V1::ChallengesController < Api::V1::BaseController
 	def set_challenge!
 		@challenge = Challenge.find_by_id(params[:id])
 		if !@challenge.present?
-			render_unprocessable('Challenge not found')
+			render_unprocessable('Challenge already deleted by owner')
 		end
 	end
 
